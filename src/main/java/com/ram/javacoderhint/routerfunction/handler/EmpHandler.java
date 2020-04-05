@@ -52,13 +52,13 @@ public class EmpHandler {
 
 	public Mono<ServerResponse> listEmp(ServerRequest request) {
 		Flux<Employee> empList = empRepository.findAll();
-		log.info("empList:  {}", empList);	
+		log.info("inside listEmp method");	
 		return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(empList, Employee.class);
 	}
 
 	public Mono<ServerResponse> getEmpById(ServerRequest request) {
 		int id = Integer.valueOf(request.pathVariable("id"));
-		log.info("Emp id:  {}",id);
+		log.info("inside getEmpById method");
 		return empRepository.findById(id)
 				.flatMap(emp -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(emp))
 				.switchIfEmpty(Mono.error(new ResourceNotFoundException(HttpStatus.NOT_FOUND, "Given id not found:  "+ id)));
